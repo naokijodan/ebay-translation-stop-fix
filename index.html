@@ -147,9 +147,9 @@ footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center
   <h2>まず、シートから手をはなします</h2>
   <p>直している間に別のところをさわると、こわれたところがふえてしまいます。</p>
   <div class="card ng">❌ 行や列を消さない</div>
-  <div class="card ng">❌ シートの保護を消さない</div>
+  <div class="card ng">❌ シートの「保護」を消さない(シートを守っている設定です)</div>
   <div class="card ng">❌ シートをコピーして作り直さない</div>
-  <div class="card ng">❌ はじめの設定をぜんぶやり直さない</div>
+  <div class="card ng">❌ 最初の準備を、もう一度ぜんぶやらない</div>
   <div class="card ng">❌ 別のAIにも同時にたのまない<br>(同じ行を取り合って、ぐちゃぐちゃになることがあります)</div>
   <div class="card ng">❌ 作業中のパソコンを閉じない</div>
   <div class="card warn">「もう一度やって」とAIに言うだけでは、このエラーは直らないことが多いです。</div>
@@ -161,7 +161,7 @@ footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center
 <!-- FORK -->
 <section class="step" id="fork" data-label="えらぶ">
   <h2>どのエラーが出ましたか？</h2>
-  <p>出ている文字と、見くらべてください。</p>
+  <p>画面に出ている文字と、見くらべてください。英語や数字の意味は、わからなくて大丈夫です。</p>
   <button class="fork" data-go="a1"><span class="t">A. シートが見つからない</span>
     <span class="mono">スプレッドシートまたは範囲が見つからない</span></button>
   <button class="fork" data-go="b1"><span class="t">B. 403 などが出る</span>
@@ -178,19 +178,20 @@ footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center
     <span class="label">いちばん多い原因と考えられるもの</span>
     <div class="picture">
       <div class="box"><b>🚪</b>シート<br>(部屋)</div>
-      <div class="box"><b>🔑</b>Googleアカウント<br>(カギ)</div>
+      <div class="box"><b>🔑</b>Googleのメールアドレス<br>(カギ)</div>
     </div>
-    <p>AIが持っているカギでは、シートの部屋が開かないことがあります。部屋の持ち主が「このカギも入っていいよ」と追加すれば開きます。</p>
+    <p>AIが使っているGoogleのメールアドレスでは、シートの部屋が開かないことがあります。部屋の持ち主が「このカギも入っていいよ」と追加すれば開きます。</p>
   </div>
   <h2>シートの住所をくらべる</h2>
-  <p>AIにわたした文の中のシートのURLと、ブラウザで開いているシートのURLを見くらべます。</p>
-  <p>URLの中の <code class="inl">/d/</code> のあとの長い文字が同じか見ます。たとえば <code class="inl">…/d/ここの長い文字/edit</code> の「ここの長い文字」のところです。</p>
+  <p>シートの住所は、画面の上の細長い欄に出ている https で始まる文字です。</p>
+<p>いつもAIにはっている文に書いてある住所と、いま開いているシートの住所を見くらべます。</p>
+  <p><code class="inl">/d/</code> と <code class="inl">/edit</code> のあいだの長い文字だけ見ます。</p>
   <div class="branch-btns">
     <button class="ok" data-go="a2">同じだった</button>
     <button class="secondary" data-reveal="a1diff">ちがった</button>
   </div>
   <div class="reveal card info" id="a1diff">
-    <p>正しいURLに直して、新しい会話でたのみ直します。動いたらおしまいです。</p>
+    <p>正しい住所に直して、新しい会話でたのみ直します。(「新しいチャット」をおします)動いたらおしまいです。</p>
     <button class="ok" data-go="goal">動いた</button>
     <button class="secondary" data-go="a2">止まった</button>
   </div>
@@ -200,9 +201,9 @@ footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center
 <!-- A2 -->
 <section class="step" id="a2" data-label="ステップ 2 / 4">
   <h2>AIのカギを調べる</h2>
-  <p>ChatGPTの「設定」を開きます。</p>
-  <p>「アプリ」か「コネクタ」のところで、Google Drive や Google Sheets を見ます。</p>
-  <p>つながっているメールアドレスをメモします。</p>
+  <p>ChatGPTの左下の丸いマークをおして、「設定」を開きます。</p>
+  <p>「アプリ」か「コネクタ」という名前のところを開きます。Google と書いてあるものをおします。</p>
+  <p>そこに出ているメールアドレスを、紙に書きます。</p>
   <div class="card warn">メニューの名前は変わることがあります。見つからないときは、ここで止まって「こまったとき」へ。</div>
   <div class="nav">
     <button class="primary" data-go="a3">できた！次へ</button>
@@ -214,14 +215,15 @@ footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center
 <!-- A3 -->
 <section class="step" id="a3" data-label="ステップ 3 / 4">
   <h2>シートにカギを追加する</h2>
+<p>「共有」でメールアドレスを入れることが、カギの追加です。</p>
   <ol class="steps">
-    <li>シートの持ち主のアカウントでシートを開きます。</li>
+    <li>シートを作ったときのGoogleのメールアドレスでログインして、シートを開きます。</li>
     <li>右上の「共有」をおします。</li>
-    <li>さっきのメールアドレスを入れます。</li>
+    <li>さっき紙に書いたメールアドレスを入れます。</li>
     <li>「編集者」をえらびます。</li>
     <li>「送信」をおします。</li>
   </ol>
-  <div class="card ng">知らない人のメールアドレスは入れません。</div>
+  <div class="card ng">紙に書いたメールアドレスだけ入れます。ほかの人のものは入れません。</div>
   <div class="nav">
     <button class="primary" data-go="a4">できた！次へ</button>
     <div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div>
@@ -232,8 +234,8 @@ footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center
 <section class="step" id="a4" data-label="ステップ 4 / 4">
   <h2>新しい会話でたのむ</h2>
   <p>前の会話は使いません。</p>
-  <p>新しい会話を開きます。</p>
-  <p>いつもと同じ指示文をはります。</p>
+  <p>新しい会話を開きます。(「新しいチャット」をおします)</p>
+  <p>いつもAIにはっている文を、同じようにはります。</p>
   <div class="nav">
     <button class="ok" data-go="goal">動いた</button>
     <button class="secondary" data-go="a5">まだ止まる</button>
@@ -244,9 +246,9 @@ footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center
 <!-- A5 -->
 <section class="step" id="a5" data-label="もうひとつ">
   <h2>つなぎ直す</h2>
-  <p>ChatGPTの設定で Google のつながりを一度切って、もう一度つなぎます。</p>
-  <p>ぜんぶ「許可」します。</p>
-  <p>新しい会話でたのみます。</p>
+  <p>ChatGPTの「設定」で、さっき見た Google のところを開きます。一度切って、もう一度つなぎます。</p>
+  <p>出てくる画面で「許可」のボタンをおします。</p>
+  <p>「新しいチャット」をおして、いつもAIにはっている文を、同じようにはります。</p>
   <div class="nav">
     <button class="ok" data-go="goal">動いた</button>
     <button class="help" data-go="help">まだ止まる</button>
@@ -263,19 +265,19 @@ footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center
       <span class="arrow">→</span>
       <div class="box"><b>🚧</b>門番<br>(もんばん)</div>
       <span class="arrow">→</span>
-      <div class="box"><b>🌐</b>サイト</div>
+      <div class="box"><b>🌐</b>ホームページ</div>
     </div>
-    <p>AIの作業部屋には門番がいます。名簿にないサイトには行かせてもらえません。AIのミスではありません。名簿に書き足します。</p>
-    <p>「組織の管理者に聞いて」と出ても、自分ひとりで使っている人は、自分で次の設定を見ます。</p>
+    <p>AIの作業部屋には門番がいます。行ってよいホームページの一覧(名簿)にないところには、行かせてもらえません。AIのミスではありません。名簿に書き足します。</p>
+    <p>「管理者に聞いて」と出ても、自分ひとりで使っている人は、自分で次の設定を見ます。</p>
   </div>
   <h2>設定を開く</h2>
   <ol class="steps">
     <li>Claudeアプリの左下の自分の名前をおします。</li>
     <li>「設定」→「Capabilities」を開きます。(日本語の画面では「機能」のような名前)</li>
     <li>「Code execution and file creation」をオンにします。(新しい画面では「Create and edit files」)</li>
-    <li>「Allow network egress」をオンにします。</li>
+    <li>「Allow network egress」をオンにします。これが門番のスイッチです。</li>
   </ol>
-  <p>メニューの名前は英語のまま出ることがあります。</p>
+  <p>英語の意味は、わからなくて大丈夫です。同じ文字をさがしておすだけです。</p>
   <div class="nav">
     <button class="primary" data-go="b2">できた！次へ</button>
     <div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div>
@@ -284,26 +286,26 @@ footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center
 
 <!-- B2 -->
 <section class="step" id="b2" data-label="ステップ 2 / 3">
-  <h2>名簿にサイトを書き足す</h2>
+  <h2>名簿にホームページを書き足す</h2>
   <p>次の3つを、まとめてコピーできます。</p>
   <pre class="mono" id="hosts">script.google.com
 script.googleusercontent.com
 naokijodan.github.io</pre>
   <button class="secondary copybtn" data-copy="hosts">3つをコピーする</button>
   <div class="copy-msg" data-msg="hosts" role="status"></div>
-  <p>サイトを追加する欄があれば、この3つを1行ずつ入れます。</p>
+  <p>「Allow network egress」の近くに書きこむ欄があれば、この3つを1行ずつ入れます。</p>
   <details>
-    <summary>Claude Codeのクラウドの作業を使っているとき</summary>
-    <p>画面の上にある作業の名前の右の ▼ をおして、「Edit cloud environment」をえらびます。</p>
-    <p>インターネットの設定を「Custom」にします。</p>
-    <p>「Allowed domains」に3つを1行ずつ入れます。もとからの一覧をふくめることもできます。</p>
+    <summary>画面の上に ▼ があって「Edit cloud environment」が出る人だけ</summary>
+    <p>画面の上にある、会話のタイトルの右の ▼ をおして、「Edit cloud environment」をえらびます。</p>
+    <p>出てきた画面で「Custom」をえらびます。</p>
+    <p>「Allowed domains」に3つを1行ずつ入れます。もとからある名簿も使うか聞かれたら、使うほうをえらびます。</p>
   </details>
   <div class="branch-btns">
     <button class="ok" data-go="b3">欄があって入れた</button>
     <button class="secondary" data-reveal="b2none">欄がなかった</button>
   </div>
   <div class="reveal card warn" id="b2none">
-    <p>ここで止まります。個人プランで欄が出るかは、公式の説明には、はっきり書かれていませんでした。ほかのやり方をさがさず「こまったとき」へ。ChatGPTで作業できるなら、そちらを使ってもかまいません。</p>
+    <p>ここで止まります。欄がなくても、あなたのミスではありません。ほかのやり方をさがさず「こまったとき」へ。</p>
     <button class="help" data-go="help">こまったときへ</button>
   </div>
   <div class="nav"><div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div></div>
@@ -312,7 +314,7 @@ naokijodan.github.io</pre>
 <!-- B3 -->
 <section class="step" id="b3" data-label="ステップ 3 / 3">
   <h2>新しい会話でたのむ</h2>
-  <p>新しい会話を開いて、いつもと同じ指示文をはります。</p>
+  <p>「新規作成」をおして、新しい会話を開きます。いつもAIにはっている文を、同じようにはります。</p>
   <div class="nav">
     <button class="ok" data-go="goal">動いた</button>
     <button class="help" data-go="help">まだ止まる</button>
@@ -325,7 +327,7 @@ naokijodan.github.io</pre>
   <div class="big-emoji">🎉</div>
   <h2>動きました</h2>
   <div class="card ok">
-    <p>AIが「承認して」(確認してください)と言ったときだけ答えて、あとは待ちます。</p>
+    <p>AIが「続けてよいですか？」と聞いてきたときだけ答えて、あとは待ちます。</p>
     <p>待っている間は、シートの行や列を消さないでください。</p>
   </div>
   <div class="nav"><div class="nav-links"><button class="linkbtn" data-restart>はじめからやり直す</button></div></div>
@@ -336,29 +338,29 @@ naokijodan.github.io</pre>
   <h2>🙋 こまったとき</h2>
   <div class="card info">ここで止まって大丈夫です。自分で別のことをためさないでください。</div>
   <p>手伝ってくれる人に、次のことを1通のメッセージで送ります。</p>
-  <textarea class="mono" id="tpl" readonly rows="8" aria-label="相談するときの文">どのAI:(ChatGPT / Claude)
+  <textarea class="mono" id="tpl" readonly rows="8" aria-label="相談するときの文">使ったAI:(ChatGPT か Claude)
 エラーの文:(そのまま)
-画面:(パソコンで撮ったスクリーンショット)
-シートのURL:
+画面の写真:(パソコンで撮ってそえます)
+シートの住所:
 ここまでにさわったところ:</textarea>
   <button class="secondary copybtn" data-copy="tpl">この文をコピーする</button>
   <div class="copy-msg" data-msg="tpl" role="status"></div>
-  <div class="card ng">パスワードや、人に見せてはいけない長い文字(APIキーなど)は送りません。</div>
+  <div class="card ng">パスワードや、人に見せてはいけない長い文字は送りません。</div>
   <div class="nav"><div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div></div>
 </section>
 
 <div class="foot-wrap">
   <details>
-    <summary>このページの根拠</summary>
+    <summary>このページを書くのに使った資料</summary>
     <ul class="plain">
       <li>Claudeの設定の場所:<br><a href="https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude" target="_blank" rel="noopener">https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude</a></li>
-      <li>クラウド環境のネットワーク設定:<br><a href="https://code.claude.com/docs/en/cloud-environments" target="_blank" rel="noopener">https://code.claude.com/docs/en/cloud-environments</a></li>
-      <li>ChatGPTのGoogle Drive接続:<br><a href="https://help.openai.com/en/articles/10929079-google-drive-app-and-setup-in-chatgpt" target="_blank" rel="noopener">https://help.openai.com/en/articles/10929079-google-drive-app-and-setup-in-chatgpt</a></li>
+      <li>「Edit cloud environment」の説明:<br><a href="https://code.claude.com/docs/en/cloud-environments" target="_blank" rel="noopener">https://code.claude.com/docs/en/cloud-environments</a></li>
+      <li>ChatGPTとGoogleのつなぎ方:<br><a href="https://help.openai.com/en/articles/10929079-google-drive-app-and-setup-in-chatgpt" target="_blank" rel="noopener">https://help.openai.com/en/articles/10929079-google-drive-app-and-setup-in-chatgpt</a></li>
     </ul>
     <div class="card unknown">
       <p><b>確かめられなかったこと</b></p>
       <ul class="plain">
-        <li>個人プランでClaudeの設定にサイトを追加する欄が出るか</li>
+        <li>自分ひとりで使う料金プランで、Claudeの設定に書きこむ欄が出るか</li>
         <li>ChatGPTのメニューの正確な名前</li>
         <li>「見つからない」の原因がいつもカギのちがいとは限らないこと</li>
       </ul>
