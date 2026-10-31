@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="eBayのAI翻訳がエラーで止まったときに、1つずつ順番に直していくためのやさしい手順ページです。">
+<title>翻訳が止まったときの直し方</title>
+<script>document.documentElement.className+=' js';</script>
+<style>
+:root{
+  color-scheme:light dark;
+  --bg:#FAF9F6; --surface:#FFFFFF; --ink:#22272E; --ink-2:#5A6472;
+  --line:#E3E1DA; --accent:#2C55A6; --accent-soft:#EBF0FA;
+  --kraft:#8A6A3B; --kraft-soft:#F5EFE3;
+  --ok:#2E7D4F; --ok-soft:#E8F3EC;
+  --warn:#9A6A0A; --warn-soft:#FBF3DF;
+  --risk:#B34040; --risk-soft:#F9ECEC;
+  --unknown:#6B7280; --unknown-soft:#EEEFF1;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171A1F; --surface:#1F242B; --ink:#E8EAED; --ink-2:#9AA4B0;
+    --line:#343B44; --accent:#7FA3E8; --accent-soft:#243248;
+    --kraft:#C9A76A; --kraft-soft:#2E2820;
+    --ok:#7CC49A; --ok-soft:#20312A;
+    --warn:#D9B36A; --warn-soft:#332C1D;
+    --risk:#E09090; --risk-soft:#382426;
+    --unknown:#9AA1AB; --unknown-soft:#2A2E34;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#171A1F; --surface:#1F242B; --ink:#E8EAED; --ink-2:#9AA4B0;
+  --line:#343B44; --accent:#7FA3E8; --accent-soft:#243248;
+  --kraft:#C9A76A; --kraft-soft:#2E2820;
+  --ok:#7CC49A; --ok-soft:#20312A;
+  --warn:#D9B36A; --warn-soft:#332C1D;
+  --risk:#E09090; --risk-soft:#382426;
+  --unknown:#9AA1AB; --unknown-soft:#2A2E34;
+}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#FAF9F6; --surface:#FFFFFF; --ink:#22272E; --ink-2:#5A6472;
+  --line:#E3E1DA; --accent:#2C55A6; --accent-soft:#EBF0FA;
+  --kraft:#8A6A3B; --kraft-soft:#F5EFE3;
+  --ok:#2E7D4F; --ok-soft:#E8F3EC;
+  --warn:#9A6A0A; --warn-soft:#FBF3DF;
+  --risk:#B34040; --risk-soft:#F9ECEC;
+  --unknown:#6B7280; --unknown-soft:#EEEFF1;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic","Noto Sans JP",sans-serif;
+  font-size:18px; line-height:1.8;
+}
+main{max-width:40rem; margin:0 auto; padding:1.5rem 1rem 3rem;}
+header.top{margin-bottom:1.25rem;}
+h1{font-size:1.5rem; line-height:1.5; margin:0 0 .4rem; font-weight:700;}
+.sub{margin:0; color:var(--ink-2);}
+h2{font-size:1.4rem; line-height:1.5; margin:0 0 .75rem; font-weight:700;}
+h2:focus{outline:none}
+h3{font-size:1.1rem; margin:1.25rem 0 .4rem;}
+p{margin:.6rem 0;}
+a{color:var(--accent); overflow-wrap:anywhere; word-break:break-all;}
+.progress{display:inline-block; font-weight:700; font-size:.95rem; color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:.15rem .9rem; margin:0 0 1rem;}
+.no-js-only{display:block}
+.js .no-js-only{display:none}
+.js-only{display:none}
+.js .js-only{display:block}
+.js .step{display:none}
+.js .step.current{display:block}
+.step{background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:1.25rem 1rem; margin-bottom:1.25rem;}
+.card{border-radius:12px; padding:.9rem 1rem; margin:.75rem 0; border:1px solid var(--line); background:var(--surface);}
+.card.ng{background:var(--risk-soft); border-color:var(--risk); color:var(--ink);}
+.card.ok{background:var(--ok-soft); border-color:var(--ok);}
+.card.warn{background:var(--warn-soft); border-color:var(--warn);}
+.card.info{background:var(--accent-soft); border-color:var(--accent);}
+.card.kraft{background:var(--kraft-soft); border-color:var(--kraft);}
+.card.unknown{background:var(--unknown-soft); border-color:var(--unknown);}
+.card p:first-child{margin-top:0}
+.card p:last-child{margin-bottom:0}
+.label{display:inline-block; font-size:.85rem; font-weight:700; border-radius:6px; padding:.05rem .6rem; background:var(--warn-soft); color:var(--warn); border:1px solid var(--warn);}
+.picture{display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:.5rem; font-size:1.1rem; text-align:center; margin:.75rem 0;}
+.picture .box{background:var(--kraft-soft); border:2px dashed var(--kraft); border-radius:12px; padding:.5rem .8rem; min-width:7rem;}
+.picture .box b{display:block; font-size:2rem; line-height:1.3;}
+.picture .arrow{font-size:1.6rem; color:var(--ink-2);}
+button, .btn{
+  font:inherit; font-weight:700; min-height:56px; width:100%;
+  border-radius:14px; border:2px solid var(--accent); background:var(--accent); color:#fff;
+  padding:.7rem 1rem; cursor:pointer; margin:.5rem 0; text-align:center; line-height:1.5;
+  display:block;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) button.ok,:root:not([data-theme="light"]) button.primary,:root:not([data-theme="light"]) .btn.primary{color:#10151C;}
+}
+:root[data-theme="dark"] button.ok,:root[data-theme="dark"] button.primary{color:#10151C;}
+button.secondary{background:var(--surface); color:var(--accent);}
+button.ok{background:var(--ok); border-color:var(--ok);}
+button.help{background:var(--warn-soft); color:var(--warn); border-color:var(--warn);}
+button.small{min-height:48px; font-size:.95rem; font-weight:600;}
+button.fork{text-align:left; background:var(--surface); color:var(--ink); border-color:var(--accent);}
+button.fork .t{display:block; font-size:1.1rem;}
+button:focus-visible, summary:focus-visible, a:focus-visible, .linkbtn:focus-visible{outline:3px solid var(--warn); outline-offset:2px;}
+.inl{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9rem; background:var(--unknown-soft); border:1px solid var(--line); border-radius:6px; padding:.05rem .35rem; overflow-wrap:anywhere; word-break:break-all;}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9rem; background:var(--unknown-soft); border:1px solid var(--line); border-radius:8px; padding:.5rem .7rem; margin:.4rem 0 0; display:block; font-weight:400; color:var(--ink); overflow-wrap:anywhere; word-break:break-all; line-height:1.6;}
+pre.mono, textarea.mono{white-space:pre-wrap; margin:.5rem 0; width:100%;}
+textarea.mono{min-height:11rem; resize:vertical;}
+.nav{margin-top:1.25rem; border-top:1px solid var(--line); padding-top:.75rem;}
+.nav-links{display:flex; flex-wrap:wrap; justify-content:space-between; gap:.5rem;}
+.linkbtn{background:none; border:none; color:var(--accent); text-decoration:underline; min-height:48px; width:auto; padding:.4rem .6rem; margin:0; font-weight:600; font-size:1rem; display:inline-block;}
+.js .nav{display:block}
+html:not(.js) button[data-go]{display:none}
+html:not(.js) .nav, html:not(.js) .copybtn, html:not(.js) .branch-btns{display:none}
+html:not(.js) .step{border-left:6px solid var(--accent);}
+html:not(.js) .reveal{display:block !important}
+.js .reveal{display:none}
+.js .reveal.show{display:block}
+.copy-msg{font-size:.95rem; min-height:1.4em; color:var(--ok); margin:.2rem 0;}
+.copy-msg.fail{color:var(--risk);}
+ul.plain{padding-left:1.2em; margin:.4rem 0;}
+ol.steps{padding-left:1.4em; margin:.4rem 0;}
+ol.steps li{margin:.5rem 0;}
+details{border:1px solid var(--line); border-radius:12px; padding:.2rem .9rem; background:var(--surface); margin:.75rem 0;}
+summary{cursor:pointer; font-weight:700; padding:.7rem 0; min-height:48px;}
+.foot-wrap{margin-top:2rem;}
+footer{margin-top:1.5rem; color:var(--ink-2); font-size:.9rem; text-align:center;}
+.restart{text-align:center; margin-top:.5rem;}
+.picture.nowrap{flex-wrap:nowrap; gap:.25rem;}
+.picture.nowrap .box{flex:1 1 0; min-width:0;}
+@media(max-width:420px){.picture .box{min-width:5rem;padding:.4rem .5rem} .picture.nowrap .box{min-width:0; padding:.4rem .2rem; font-size:.85rem} .picture.nowrap .box b{font-size:1.6rem} .picture.nowrap .arrow{font-size:1.2rem}}
+.big-emoji{font-size:2.5rem; line-height:1.2;}
+</style>
+</head>
+<body>
+<main>
+<header class="top">
+  <h1>AIの翻訳が止まったときの直し方</h1>
+  <p class="sub">1つずつ、順番にやれば大丈夫です。</p>
+</header>
+
+<div id="progress" class="progress js-only" aria-live="polite"></div>
+
+<!-- GATE -->
+<section class="step" id="gate" data-label="はじめに">
+  <h2>まず、シートから手をはなします</h2>
+  <p>直している間に別のところをさわると、こわれたところがふえてしまいます。</p>
+  <div class="card ng">❌ 行や列を消さない</div>
+  <div class="card ng">❌ シートの保護を消さない</div>
+  <div class="card ng">❌ シートをコピーして作り直さない</div>
+  <div class="card ng">❌ はじめの設定をぜんぶやり直さない</div>
+  <div class="card ng">❌ 別のAIにも同時にたのまない<br>(同じ行を取り合って、ぐちゃぐちゃになることがあります)</div>
+  <div class="card ng">❌ 作業中のパソコンを閉じない</div>
+  <div class="card warn">「もう一度やって」とAIに言うだけでは、このエラーは直らないことが多いです。</div>
+  <div class="nav">
+    <button class="primary" data-go="fork">わかった。さわりません</button>
+  </div>
+</section>
+
+<!-- FORK -->
+<section class="step" id="fork" data-label="えらぶ">
+  <h2>どのエラーが出ましたか？</h2>
+  <p>出ている文字と、見くらべてください。</p>
+  <button class="fork" data-go="a1"><span class="t">A. シートが見つからない</span>
+    <span class="mono">スプレッドシートまたは範囲が見つからない</span></button>
+  <button class="fork" data-go="b1"><span class="t">B. 403 などが出る</span>
+    <span class="mono">403<br>CONNECT tunnel failed<br>policy denial</span></button>
+  <button class="fork" data-go="help"><span class="t">C. どちらでもない</span>
+    <span class="mono">エラーが出ないのに、うまくいかない</span></button>
+  <div class="nav"><div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button></div></div>
+</section>
+
+<!-- A1 -->
+<section class="step" id="a1" data-label="ステップ 1 / 4">
+  <h2>🚪 シートが見つからないとき</h2>
+  <div class="card kraft">
+    <span class="label">いちばん多い原因と考えられるもの</span>
+    <div class="picture">
+      <div class="box"><b>🚪</b>シート<br>(部屋)</div>
+      <div class="box"><b>🔑</b>Googleアカウント<br>(カギ)</div>
+    </div>
+    <p>AIが持っているカギでは、シートの部屋が開かないことがあります。部屋の持ち主が「このカギも入っていいよ」と追加すれば開きます。</p>
+  </div>
+  <h2>シートの住所をくらべる</h2>
+  <p>AIにわたした文の中のシートのURLと、ブラウザで開いているシートのURLを見くらべます。</p>
+  <p>URLの中の <code class="inl">/d/</code> のあとの長い文字が同じか見ます。たとえば <code class="inl">…/d/ここの長い文字/edit</code> の「ここの長い文字」のところです。</p>
+  <div class="branch-btns">
+    <button class="ok" data-go="a2">同じだった</button>
+    <button class="secondary" data-reveal="a1diff">ちがった</button>
+  </div>
+  <div class="reveal card info" id="a1diff">
+    <p>正しいURLに直して、新しい会話でたのみ直します。動いたらおしまいです。</p>
+    <button class="ok" data-go="goal">動いた</button>
+    <button class="secondary" data-go="a2">止まった</button>
+  </div>
+  <div class="nav"><div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div></div>
+</section>
+
+<!-- A2 -->
+<section class="step" id="a2" data-label="ステップ 2 / 4">
+  <h2>AIのカギを調べる</h2>
+  <p>ChatGPTの「設定」を開きます。</p>
+  <p>「アプリ」か「コネクタ」のところで、Google Drive や Google Sheets を見ます。</p>
+  <p>つながっているメールアドレスをメモします。</p>
+  <div class="card warn">メニューの名前は変わることがあります。見つからないときは、ここで止まって「こまったとき」へ。</div>
+  <div class="nav">
+    <button class="primary" data-go="a3">できた！次へ</button>
+    <button class="help" data-go="help">見つからない</button>
+    <div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div>
+  </div>
+</section>
+
+<!-- A3 -->
+<section class="step" id="a3" data-label="ステップ 3 / 4">
+  <h2>シートにカギを追加する</h2>
+  <ol class="steps">
+    <li>シートの持ち主のアカウントでシートを開きます。</li>
+    <li>右上の「共有」をおします。</li>
+    <li>さっきのメールアドレスを入れます。</li>
+    <li>「編集者」をえらびます。</li>
+    <li>「送信」をおします。</li>
+  </ol>
+  <div class="card ng">知らない人のメールアドレスは入れません。</div>
+  <div class="nav">
+    <button class="primary" data-go="a4">できた！次へ</button>
+    <div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div>
+  </div>
+</section>
+
+<!-- A4 -->
+<section class="step" id="a4" data-label="ステップ 4 / 4">
+  <h2>新しい会話でたのむ</h2>
+  <p>前の会話は使いません。</p>
+  <p>新しい会話を開きます。</p>
+  <p>いつもと同じ指示文をはります。</p>
+  <div class="nav">
+    <button class="ok" data-go="goal">動いた</button>
+    <button class="secondary" data-go="a5">まだ止まる</button>
+    <div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div>
+  </div>
+</section>
+
+<!-- A5 -->
+<section class="step" id="a5" data-label="もうひとつ">
+  <h2>つなぎ直す</h2>
+  <p>ChatGPTの設定で Google のつながりを一度切って、もう一度つなぎます。</p>
+  <p>ぜんぶ「許可」します。</p>
+  <p>新しい会話でたのみます。</p>
+  <div class="nav">
+    <button class="ok" data-go="goal">動いた</button>
+    <button class="help" data-go="help">まだ止まる</button>
+    <div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div>
+  </div>
+</section>
+
+<!-- B1 -->
+<section class="step" id="b1" data-label="ステップ 1 / 3">
+  <h2>🚧 403 などが出るとき</h2>
+  <div class="card kraft">
+    <div class="picture nowrap">
+      <div class="box"><b>🤖</b>AI</div>
+      <span class="arrow">→</span>
+      <div class="box"><b>🚧</b>門番<br>(もんばん)</div>
+      <span class="arrow">→</span>
+      <div class="box"><b>🌐</b>サイト</div>
+    </div>
+    <p>AIの作業部屋には門番がいます。名簿にないサイトには行かせてもらえません。AIのミスではありません。名簿に書き足します。</p>
+    <p>「組織の管理者に聞いて」と出ても、自分ひとりで使っている人は、自分で次の設定を見ます。</p>
+  </div>
+  <h2>設定を開く</h2>
+  <ol class="steps">
+    <li>Claudeアプリの左下の自分の名前をおします。</li>
+    <li>「設定」→「Capabilities」を開きます。(日本語の画面では「機能」のような名前)</li>
+    <li>「Code execution and file creation」をオンにします。(新しい画面では「Create and edit files」)</li>
+    <li>「Allow network egress」をオンにします。</li>
+  </ol>
+  <p>メニューの名前は英語のまま出ることがあります。</p>
+  <div class="nav">
+    <button class="primary" data-go="b2">できた！次へ</button>
+    <div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div>
+  </div>
+</section>
+
+<!-- B2 -->
+<section class="step" id="b2" data-label="ステップ 2 / 3">
+  <h2>名簿にサイトを書き足す</h2>
+  <p>次の3つを、まとめてコピーできます。</p>
+  <pre class="mono" id="hosts">script.google.com
+script.googleusercontent.com
+naokijodan.github.io</pre>
+  <button class="secondary copybtn" data-copy="hosts">3つをコピーする</button>
+  <div class="copy-msg" data-msg="hosts" role="status"></div>
+  <p>サイトを追加する欄があれば、この3つを1行ずつ入れます。</p>
+  <details>
+    <summary>Claude Codeのクラウドの作業を使っているとき</summary>
+    <p>画面の上にある作業の名前の右の ▼ をおして、「Edit cloud environment」をえらびます。</p>
+    <p>インターネットの設定を「Custom」にします。</p>
+    <p>「Allowed domains」に3つを1行ずつ入れます。もとからの一覧をふくめることもできます。</p>
+  </details>
+  <div class="branch-btns">
+    <button class="ok" data-go="b3">欄があって入れた</button>
+    <button class="secondary" data-reveal="b2none">欄がなかった</button>
+  </div>
+  <div class="reveal card warn" id="b2none">
+    <p>ここで止まります。個人プランで欄が出るかは、公式の説明には、はっきり書かれていませんでした。ほかのやり方をさがさず「こまったとき」へ。ChatGPTで作業できるなら、そちらを使ってもかまいません。</p>
+    <button class="help" data-go="help">こまったときへ</button>
+  </div>
+  <div class="nav"><div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div></div>
+</section>
+
+<!-- B3 -->
+<section class="step" id="b3" data-label="ステップ 3 / 3">
+  <h2>新しい会話でたのむ</h2>
+  <p>新しい会話を開いて、いつもと同じ指示文をはります。</p>
+  <div class="nav">
+    <button class="ok" data-go="goal">動いた</button>
+    <button class="help" data-go="help">まだ止まる</button>
+    <div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div>
+  </div>
+</section>
+
+<!-- GOAL -->
+<section class="step" id="goal" data-label="おわり">
+  <div class="big-emoji">🎉</div>
+  <h2>動きました</h2>
+  <div class="card ok">
+    <p>AIが「承認して」(確認してください)と言ったときだけ答えて、あとは待ちます。</p>
+    <p>待っている間は、シートの行や列を消さないでください。</p>
+  </div>
+  <div class="nav"><div class="nav-links"><button class="linkbtn" data-restart>はじめからやり直す</button></div></div>
+</section>
+
+<!-- HELP -->
+<section class="step" id="help" data-label="こまったとき">
+  <h2>🙋 こまったとき</h2>
+  <div class="card info">ここで止まって大丈夫です。自分で別のことをためさないでください。</div>
+  <p>手伝ってくれる人に、次のことを1通のメッセージで送ります。</p>
+  <textarea class="mono" id="tpl" readonly rows="8" aria-label="相談するときの文">どのAI:(ChatGPT / Claude)
+エラーの文:(そのまま)
+画面:(パソコンで撮ったスクリーンショット)
+シートのURL:
+ここまでにさわったところ:</textarea>
+  <button class="secondary copybtn" data-copy="tpl">この文をコピーする</button>
+  <div class="copy-msg" data-msg="tpl" role="status"></div>
+  <div class="card ng">パスワードや、人に見せてはいけない長い文字(APIキーなど)は送りません。</div>
+  <div class="nav"><div class="nav-links"><button class="linkbtn" data-back>ひとつ戻る</button><button class="linkbtn" data-restart>はじめからやり直す</button></div></div>
+</section>
+
+<div class="foot-wrap">
+  <details>
+    <summary>このページの根拠</summary>
+    <ul class="plain">
+      <li>Claudeの設定の場所:<br><a href="https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude" target="_blank" rel="noopener">https://support.claude.com/en/articles/12111783-create-and-edit-files-with-claude</a></li>
+      <li>クラウド環境のネットワーク設定:<br><a href="https://code.claude.com/docs/en/cloud-environments" target="_blank" rel="noopener">https://code.claude.com/docs/en/cloud-environments</a></li>
+      <li>ChatGPTのGoogle Drive接続:<br><a href="https://help.openai.com/en/articles/10929079-google-drive-app-and-setup-in-chatgpt" target="_blank" rel="noopener">https://help.openai.com/en/articles/10929079-google-drive-app-and-setup-in-chatgpt</a></li>
+    </ul>
+    <div class="card unknown">
+      <p><b>確かめられなかったこと</b></p>
+      <ul class="plain">
+        <li>個人プランでClaudeの設定にサイトを追加する欄が出るか</li>
+        <li>ChatGPTのメニューの正確な名前</li>
+        <li>「見つからない」の原因がいつもカギのちがいとは限らないこと</li>
+      </ul>
+    </div>
+  </details>
+</div>
+
+<footer>この日に調べた内容です: 2026年10月31日</footer>
+</main>
+
+<script>
+(function(){
+  var steps = Array.prototype.slice.call(document.querySelectorAll('.step'));
+  var byId = {};
+  steps.forEach(function(s){ byId[s.id] = s; });
+  var progress = document.getElementById('progress');
+  var trail = [];
+  var current = null;
+
+  function show(id, pushHistory){
+    if(!byId[id]) return;
+    if(pushHistory && current) trail.push(current);
+    steps.forEach(function(s){ s.classList.remove('current'); });
+    byId[id].classList.add('current');
+    current = id;
+    progress.textContent = byId[id].getAttribute('data-label') || '';
+    var rev = byId[id].querySelectorAll('.reveal');
+    for(var i=0;i<rev.length;i++){ rev[i].classList.remove('show'); }
+    var br = byId[id].querySelectorAll('.branch-btns');
+    for(var j=0;j<br.length;j++){ br[j].style.display=''; }
+    try { window.scrollTo(0,0); } catch(e){}
+    try { var h = byId[id].querySelector('h2'); if(h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); } } catch(e){}
+  }
+
+  function copyFrom(id, msgEl){
+    var el = document.getElementById(id);
+    var text = el.value !== undefined && el.tagName === 'TEXTAREA' ? el.value : el.textContent;
+    function fallback(){
+      try {
+        if(el.tagName === 'TEXTAREA'){ el.focus(); el.select(); }
+        else { var r = document.createRange(); r.selectNodeContents(el); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); }
+      } catch(e){}
+      msgEl.className = 'copy-msg fail';
+      msgEl.textContent = 'コピーできませんでした。選んだ文字を、長押しかコピーの操作でコピーしてください。';
+    }
+    try {
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){
+          msgEl.className = 'copy-msg';
+          msgEl.textContent = 'コピーしました。';
+        }, fallback);
+      } else { fallback(); }
+    } catch(e){ fallback(); }
+  }
+
+  document.addEventListener('click', function(ev){
+    var t = ev.target;
+    while(t && t !== document && !(t.getAttribute && (t.hasAttribute('data-go') || t.hasAttribute('data-back') || t.hasAttribute('data-restart') || t.hasAttribute('data-reveal') || t.hasAttribute('data-copy')))){ t = t.parentNode; }
+    if(!t || t === document) return;
+    if(t.hasAttribute('data-go')){ show(t.getAttribute('data-go'), true); }
+    else if(t.hasAttribute('data-back')){
+      var prev = trail.pop();
+      show(prev || 'gate', false);
+    }
+    else if(t.hasAttribute('data-restart')){ trail = []; current = null; show('gate', false); }
+    else if(t.hasAttribute('data-reveal')){
+      var box = document.getElementById(t.getAttribute('data-reveal'));
+      if(box){
+        box.classList.add('show');
+        var wrap = t.parentNode; if(wrap && wrap.className.indexOf('branch-btns') > -1){ wrap.style.display = 'none'; }
+        try { box.scrollIntoView({block:'nearest'}); } catch(e){}
+      }
+    }
+    else if(t.hasAttribute('data-copy')){
+      var id = t.getAttribute('data-copy');
+      var msg = document.querySelector('[data-msg="' + id + '"]');
+      copyFrom(id, msg);
+    }
+  });
+
+  show('gate', false);
+})();
+</script>
+</body>
+</html>
